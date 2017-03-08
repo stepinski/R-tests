@@ -1,0 +1,32 @@
+---
+title: "null hypotesis testing"
+output: html_notebook
+---
+
+prepare the population
+```{r}
+library(downloader) 
+url <- "https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/femaleControlsPopulation.csv"
+filename <- basename(url)
+download(url, destfile=filename)
+x <- unlist( read.csv(filename) )
+x
+```
+
+mean table
+```{r}
+ref <- mean(x)
+n <- 1000
+means <- vector("numeric",n)
+set.seed(1)
+
+for(i in 1:n){
+  testavg <- mean(sample(x,50))
+  means[i]<-testavg
+}
+
+sum(abs(means-ref)>=1)/length(means)
+  
+
+```
+

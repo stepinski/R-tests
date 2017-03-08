@@ -1,0 +1,72 @@
+---
+title: "probability distribution"
+output: html_notebook
+---
+
+
+```{r}
+install.packages("gapminder")
+library(gapminder)
+library(dplyr)
+data(gapminder)
+head(gapminder)
+filtered <- filter(gapminder,country=="Poland")
+filtered
+```
+Create vector x of life expectancies
+```{r}
+library('lattice')
+testkk <- filter(gapminder,continent == "Europe") %>% select(country,lifeExp) 
+histogram(~ lifeExp | country, testkk)
+
+```
+play with distributions
+count life expectancies proportions
+```{r}
+dataall <- select(gapminder,lifeExp) %>% unlist
+prop = function(q){
+  mean(dataall<=q)
+}
+data1952 <- filter(gapminder,year==1952 ) %>% select(lifeExp) %>% unlist
+ex40 <- mean(data1952<=40)
+ex60 <- mean(data1952<=60)
+ex60-ex40
+
+qs = seq(from=min(dataall), to=max(dataall), length=10)
+#qs
+
+props <- sapply(qs,prop)
+props
+
+plot(qs,props,type="l")
+plot(ecdf(dataall))
+#%>% mean(lifeexp<=40)
+```
+normal distribution tests
+```{r}
+library(downloader) 
+url <- "https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/femaleControlsPopulation.csv"
+filename <- basename(url)
+download(url, destfile=filename)
+x <- unlist( read.csv(filename) )
+n <- 1000
+set.seed(1)
+
+avg1 <- vector("numeric",n)
+for(i in 1:n){
+  avg1[i] <- mean(sample(x,5)) 
+}
+avg2 <- vector("numeric",n)
+for(i in 1:n){
+  avg2[i] <- mean(sample(x,50)) 
+}
+
+mean(avg2>23 & avg2<25)
+
+hist(avg1)
+hist(avg2)
+
+```
+
+
+

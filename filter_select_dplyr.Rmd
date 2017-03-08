@@ -1,0 +1,35 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(downloader)
+url="https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv"
+filename <- basename(url)
+download(url,filename)
+tmp <- read.csv(filename)
+```
+filtering frame - getting primates only
+```{r}
+class(tmp)
+#View(tmp)
+prim <- filter(tmp,order=="Primates")
+nrow(prim)
+
+```
+extract sleep from primates and count the mean function
+```{r}
+sl <- filter(tmp,order=="Primates") %>% select(sleep_total)
+class(sl)
+mean(unlist(sl))
+
+```
+repeat above using filter and sumarize
+```{r}
+summarize(filter(tmp,order=="Primates"),mean(sleep_total))
+```
+
+
+
+
