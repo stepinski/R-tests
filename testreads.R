@@ -1,0 +1,5 @@
+mydata.frame<-read.table("test.dat",header=T,skip=1)
+head(mydata.frame)
+mydata.frame2<-read.table("test2.dat",header=T,skip=1,sep=";",dec=",")
+head(mydata.frame2)
+myvile <- file("test3.txt",open="r")
